@@ -1,4 +1,5 @@
-package top.yogiczy.mytv.tv.ui.screensold.channelline
+package top.yogiczy.mytv.tv.ui.screensold.iptvsource
+
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -6,22 +7,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Text
-import top.yogiczy.mytv.core.data.entities.channel.Channel
-import top.yogiczy.mytv.core.data.entities.channel.ChannelLine
 import top.yogiczy.mytv.tv.ui.material.Drawer
 import top.yogiczy.mytv.tv.ui.material.DrawerPosition
-import top.yogiczy.mytv.tv.ui.screensold.channelline.components.ChannelLineItemList
-import top.yogiczy.mytv.tv.ui.screensold.components.rememberScreenAutoCloseState
 import top.yogiczy.mytv.tv.ui.theme.MyTvTheme
 import top.yogiczy.mytv.tv.ui.tooling.PreviewWithLayoutGrids
 import top.yogiczy.mytv.tv.ui.utils.backHandler
+import top.yogiczy.mytv.core.data.entities.iptvsource.IptvSource
+import top.yogiczy.mytv.core.data.entities.iptvsource.IptvSourceList
+import top.yogiczy.mytv.tv.ui.screensold.iptvsource.components.IptvSourceItemList
+import top.yogiczy.mytv.tv.ui.screensold.components.rememberScreenAutoCloseState
 
 @Composable
-fun ChannelLineScreen(
+fun IptvSourceScreen(
     modifier: Modifier = Modifier,
-    channelProvider: () -> Channel = { Channel() },
-    currentLineProvider: () -> ChannelLine = { ChannelLine() },
-    onLineSelected: (ChannelLine) -> Unit = {},
+    currentIptvSourceProvider: () ->IptvSource = { IptvSource() },
+    iptvSourceListProvider: () ->IptvSourceList = { IptvSourceList() },
+    onIptvSourceChanged: (IptvSource) -> Unit = {},
     onClose: () -> Unit = {},
 ) {
     val screenAutoCloseState = rememberScreenAutoCloseState(onTimeout = onClose)
@@ -30,13 +31,13 @@ fun ChannelLineScreen(
         modifier = modifier.backHandler { onClose() },
         onDismissRequest = onClose,
         position = DrawerPosition.End,
-        header = { Text("源线路") },
+        header = { Text("播放源") },
     ) {
-        ChannelLineItemList(
+        IptvSourceItemList(
             modifier = Modifier.width(268.dp),
-            lineListProvider = { channelProvider().lineList },
-            currentLineProvider = currentLineProvider,
-            onSelected = onLineSelected,
+            iptvSourceListProvider = iptvSourceListProvider,
+            currentIptvSourceProvider = currentIptvSourceProvider,
+            onSelected = onIptvSourceChanged,
             onUserAction = { screenAutoCloseState.active() },
         )
     }
@@ -44,11 +45,12 @@ fun ChannelLineScreen(
 
 @Preview(device = "id:Android TV (720p)")
 @Composable
-private fun ChannelLineScreenPreview() {
+private fun IptvSourceScreenPreview() {
     MyTvTheme {
         PreviewWithLayoutGrids {
-            ChannelLineScreen(
-                channelProvider = { Channel.EXAMPLE },
+            IptvSourceScreen(
+                currentIptvSourceProvider = { IptvSource.EXAMPLE },
+                iptvSourceListProvider = { IptvSourceList.EXAMPLE },
             )
         }
     }
