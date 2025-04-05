@@ -31,7 +31,7 @@ object Constants {
         listOf(
             IptvSource(
                 name = "默认直播源",
-                url = "https://gh-proxy.com/https://raw.githubusercontent.com/0047ol/China-TV-Live-M3U8/refs/heads/main/tv.m3u",
+                url = "https://gitee.com/yjc1142748215/xin/raw/master/%E5%8E%9F1.txt",
             )
         )
     )
@@ -77,7 +77,7 @@ object Constants {
     /**
      * GitHub加速代理地址
      */
-    const val GITHUB_PROXY = "https://gh-proxy.com/"
+    const val GITHUB_PROXY = ""
 
     /**
      * Git最新版本信息
